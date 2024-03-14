@@ -73,7 +73,7 @@ OrbitalSim *constructOrbitalSim(float timeStep)
     OrbitalSim * sim = new OrbitalSim;
     sim->timeStep = timeStep;
     sim->bodyNum = bodyNum;
-    // sim->bodyArray = (OrbitalBody(*)[])malloc(sizeof(OrbitalBody) * bodyNum);
+    sim->bodyArray = (OrbitalBody(*)[])malloc(sizeof(OrbitalBody) * bodyNum);
     for(int i = 0; i < bodyNum; i++){
         (*sim->bodyArray)[i] = {
             solarSystem[i].mass,
@@ -81,7 +81,7 @@ OrbitalSim *constructOrbitalSim(float timeStep)
             solarSystem[i].color,
             solarSystem[i].position,
             solarSystem[i].velocity,
-            Vector3Zero()
+            Vector3Zero(),
         };
     }
 
