@@ -8,6 +8,9 @@
 #ifndef EPHEMERIDES_H
 #define EPHEMERIDES_H
 
+#include "raylib.h"
+#include "raymath.h"
+
 struct EphemeridesBody
 {
     const char *name; // Name

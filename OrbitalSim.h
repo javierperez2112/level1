@@ -22,7 +22,7 @@ struct OrbitalBody
     Color color;	  // Raylib color
     Vector3 position; // [m]
     Vector3 velocity; // [m/s]
-
+    Vector3 acceleration;   // [m/s^2]
 };
 
 /**

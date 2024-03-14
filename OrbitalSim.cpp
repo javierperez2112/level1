@@ -70,9 +70,22 @@ OrbitalSim *constructOrbitalSim(float timeStep)
 {
     // Your code goes here...
     int bodyNum = SOLARSYSTEM_BODYNUM;
+    OrbitalSim * sim = new OrbitalSim;
+    sim->timeStep = timeStep;
+    sim->bodyNum = bodyNum;
+    // sim->bodyArray = (OrbitalBody(*)[])malloc(sizeof(OrbitalBody) * bodyNum);
+    for(int i = 0; i < bodyNum; i++){
+        (*sim->bodyArray)[i] = {
+            solarSystem[i].mass,
+            solarSystem[i].radius,
+            solarSystem[i].color,
+            solarSystem[i].position,
+            solarSystem[i].velocity,
+            Vector3Zero()
+        };
+    }
 
-
-    return NULL; // This should return your orbital sim
+    return sim; // This should return your orbital sim
 }
 
 /**
@@ -81,7 +94,8 @@ OrbitalSim *constructOrbitalSim(float timeStep)
 void destroyOrbitalSim(OrbitalSim *sim)
 {
     // Your code goes here...
-
+    free(sim->bodyArray);
+    delete sim;
 
 }
 
