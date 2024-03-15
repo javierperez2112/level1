@@ -14,6 +14,20 @@
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720
 
+#define POS_SCALE 1E-11
+
+float RadiusScaler(float r) {
+    return (0.005f * (logf(r)));
+}
+
+void OrbitalSimDraw(OrbitalSim* sim) {
+    OrbitalBody(*arr)[] = sim->bodyArray;
+    for (int i = 0; i < sim->bodyNum; i++) {
+        OrbitalBody planet = (*arr)[i];
+        DrawSphere(Vector3Scale(planet.position, POS_SCALE), RadiusScaler(planet.radius), planet.color);
+    };
+}
+
 /**
  * @brief Converts a timestamp (number of seconds since 1/1/2022)
  *        to an ISO date ("YYYY-MM-DD")
@@ -97,18 +111,17 @@ void renderView(View *view, OrbitalSim *sim)
     BeginMode3D(view->camera);
 
     // Fill in your 3D drawing code here:
-    OrbitalBody (*arr)[] = sim->bodyArray;
-    for(int i = 0; i < sim->bodyNum; i++){
-        OrbitalBody body = (*arr)[i];
-        DrawSphere(Vector3Scale(body.position, 5E-11F),1E-1F * log10(body.radius),body.color);
-    }
+    
+    OrbitalSimDraw(sim);
 
     DrawGrid(20, 10.0f);
     EndMode3D();
 
     // Fill in your 2D drawing code here:
 
+    DrawFPS(WINDOW_WIDTH - 100, 10);
 
+    DrawText(getISODate(1), WINDOW_WIDTH - 130, 30, 20, DARKGREEN);
 
     EndDrawing();
 }
