@@ -6,8 +6,10 @@
  */
 
 #include <time.h>
+#include <math.h>
 
 #include "View.h"
+#include "OrbitalSim.h"
 
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720
@@ -95,10 +97,12 @@ void renderView(View *view, OrbitalSim *sim)
     BeginMode3D(view->camera);
 
     // Fill in your 3D drawing code here:
+    OrbitalBody (*arr)[] = sim->bodyArray;
+    for(int i = 0; i < sim->bodyNum; i++){
+        DrawSphere(Vector3Scale((*arr)[i].position, 5E-11F),1E-1F * log10((*arr)[i].radius),(*arr)[i].color);
+    }
 
-
-
-    DrawGrid(10, 10.0f);
+    DrawGrid(20, 10.0f);
     EndMode3D();
 
     // Fill in your 2D drawing code here:

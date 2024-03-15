@@ -69,18 +69,19 @@ void configureAsteroid(OrbitalBody *body, float centerMass)
 OrbitalSim *constructOrbitalSim(float timeStep)
 {
     // Your code goes here...
-    int bodyNum = SOLARSYSTEM_BODYNUM;
+    int bodyNum = ALPHACENTAURISYSTEM_BODYNUM;
+    EphemeridesBody * system = alphaCentauriSystem;
     OrbitalSim * sim = new OrbitalSim;
     sim->timeStep = timeStep;
     sim->bodyNum = bodyNum;
     sim->bodyArray = (OrbitalBody(*)[])malloc(sizeof(OrbitalBody) * bodyNum);
     for(int i = 0; i < bodyNum; i++){
         (*sim->bodyArray)[i] = {
-            solarSystem[i].mass,
-            solarSystem[i].radius,
-            solarSystem[i].color,
-            solarSystem[i].position,
-            solarSystem[i].velocity,
+            system[i].mass,
+            system[i].radius,
+            system[i].color,
+            system[i].position,
+            system[i].velocity,
             Vector3Zero(),
         };
     }
