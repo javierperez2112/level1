@@ -69,8 +69,8 @@ void configureAsteroid(OrbitalBody *body, float centerMass)
 OrbitalSim *constructOrbitalSim(float timeStep)
 {
     // Your code goes here...
-    int bodyNum = ALPHACENTAURISYSTEM_BODYNUM;
-    EphemeridesBody * system = alphaCentauriSystem;
+    int bodyNum = SOLARSYSTEM_BODYNUM;
+    EphemeridesBody * system = solarSystem;
     OrbitalSim * sim = new OrbitalSim;
     sim->timeStep = timeStep;
     sim->bodyNum = bodyNum;
