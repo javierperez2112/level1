@@ -99,7 +99,8 @@ void renderView(View *view, OrbitalSim *sim)
     // Fill in your 3D drawing code here:
     OrbitalBody (*arr)[] = sim->bodyArray;
     for(int i = 0; i < sim->bodyNum; i++){
-        DrawSphere(Vector3Scale((*arr)[i].position, 5E-11F),1E-1F * log10((*arr)[i].radius),(*arr)[i].color);
+        OrbitalBody body = (*arr)[i];
+        DrawSphere(Vector3Scale(body.position, 5E-11F),1E-1F * log10(body.radius),body.color);
     }
 
     DrawGrid(20, 10.0f);
