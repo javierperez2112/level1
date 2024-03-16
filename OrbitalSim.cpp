@@ -17,6 +17,9 @@
 #define GRAVITATIONAL_CONSTANT 6.6743E-11F
 #define ASTEROIDS_MEAN_RADIUS 4E11F
 
+static void accelerationCalc(OrbitalSim* sim, int bodyNumber1);
+static Vector3 linealFunction(Vector3 b, Vector3 m, float x);
+
 /**
  * @brief Gets a uniform random value in a range
  *
@@ -107,7 +110,53 @@ void destroyOrbitalSim(OrbitalSim *sim)
  */
 void updateOrbitalSim(OrbitalSim *sim)
 {
-    // Your code goes here...
+    int bodyCount;
 
+    for (bodyCount = 0; bodyCount < sim->bodyNum; bodyCount++) {
+        accelerationCalc(sim, bodyCount);
+    }
 
+    for (bodyCount = 0; bodyCount < sim->bodyNum; bodyCount++) {
+        (sim->bodyArray[bodyCount])->velocity = linealFunction((sim->bodyArray[bodyCount])->velocity, (sim->bodyArray[bodyCount])->acceleration, sim->timeStep);
+        (sim->bodyArray[bodyCount])->position = linealFunction((sim->bodyArray[bodyCount])->position, (sim->bodyArray[bodyCount])->velocity, sim->timeStep);
+    }
+}
+
+/**
+ * @brief Calculates and sets the acceleration of an OrbitalBody
+ *
+ * @param sim The orbital simulation
+ * @param bodyI Position of the OrbitalBody in the bodyArray
+ * @return void
+ */
+static void accelerationCalc(OrbitalSim *sim, int bodyI) 
+{
+    Vector3 gravitationalForce, netForce = Vector3Zero();
+    int counter;
+
+    for (counter = 0; counter < sim->bodyNum ; counter++) 
+    {
+        if (counter != bodyI) 
+        {
+            Vector3 substractedVectors = Vector3Subtract(sim->bodyArray[bodyI]->position, sim->bodyArray[counter]->position);
+            double constant, norm = sqrt(substractedVectors.x * substractedVectors.x + substractedVectors.y * substractedVectors.y + substractedVectors.z * substractedVectors.z);
+            constant = -(GRAVITATIONAL_CONSTANT * sim->bodyArray[bodyI]->mass * sim->bodyArray[counter]->mass) / (norm * norm);
+            gravitationalForce = Vector3Scale(Vector3Scale(substractedVectors, 1 / norm), constant);
+            netForce = Vector3Add(netForce, gravitationalForce);
+        }
+    }
+    sim->bodyArray[bodyI]->acceleration = Vector3Scale(netForce, 1 / sim->bodyArray[bodyI]->mass);
+}
+
+/**
+ * @brief Calculates a lineal function with Vector3
+ *
+ * @param b Independent term
+ * @param m Slope
+ * @param x X
+ * @return Vector with solution
+ */
+static Vector3 linealFunction(Vector3 b, Vector3 m, float x) 
+{
+    return Vector3Add(b, Vector3Scale(m, x));
 }
