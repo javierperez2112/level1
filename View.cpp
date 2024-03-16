@@ -16,15 +16,11 @@
 
 #define POS_SCALE 1E-11
 
-float RadiusScaler(float r) {
-    return (0.005f * (logf(r)));
-}
-
 void OrbitalSimDraw(OrbitalSim* sim) {
     OrbitalBody(*arr)[] = sim->bodyArray;
     for (int i = 0; i < sim->bodyNum; i++) {
         OrbitalBody planet = (*arr)[i];
-        DrawSphere(Vector3Scale(planet.position, POS_SCALE), RadiusScaler(planet.radius), planet.color);
+        DrawSphere(Vector3Scale(planet.position, POS_SCALE), planet.scaledRadius, planet.color);
     };
 }
 
@@ -114,14 +110,14 @@ void renderView(View *view, OrbitalSim *sim)
     
     OrbitalSimDraw(sim);
 
-    DrawGrid(20, 10.0f);
+    // DrawGrid(20, 10.0f);
     EndMode3D();
 
     // Fill in your 2D drawing code here:
 
     DrawFPS(WINDOW_WIDTH - 100, 10);
 
-    DrawText(getISODate(1), WINDOW_WIDTH - 130, 30, 20, DARKGREEN);
+    DrawText(getISODate(sim->timeStamp), WINDOW_WIDTH - 130, 30, 20, DARKGREEN);
 
     EndDrawing();
 }

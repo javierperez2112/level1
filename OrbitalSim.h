@@ -11,6 +11,8 @@
 #include "raylib.h"
 #include "raymath.h"
 
+#define RAD_SCALE(x) (0.005f * (logf(x)))
+
 /**
  * @brief Orbital body definition
  */
@@ -19,6 +21,7 @@ struct OrbitalBody
     // Fill in your code here...
     float mass;		  // [kg]
     float radius;	  // [m]
+    float scaledRadius;
     Color color;	  // Raylib color
     Vector3 position; // [m]
     Vector3 velocity; // [m/s]
@@ -32,6 +35,7 @@ struct OrbitalSim
 {
     // Fill in your code here...
     float timeStep; // [s]
+    float timeStamp;   // [s]
     int bodyNum;
     OrbitalBody (*bodyArray)[];
 
