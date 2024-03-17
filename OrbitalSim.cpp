@@ -131,31 +131,28 @@ void updateOrbitalSim(OrbitalSim *sim)
  * @param sim The orbital simulation
 */
 void updateAccelerations(OrbitalSim *sim){
-    double numerator[3] = {0.0, 0.0, 0.0};  // {x,y,z}
-    double denominator = 0.0;
-    OrbitalBody *body;
-    Vector3 centerOfMass, unitVector, differenceVector;
+    OrbitalBody *bodyI;
+    OrbitalBody *bodyJ;
+    for(int i = 0; i < sim->bodyNum; i++){
+        bodyI = &(*sim->bodyArray)[i];
+        bodyI->acceleration = Vector3Zero();
+    }
+
+    Vector3 differenceVector, unitVector;
     float normSquared;
 
     for(int i = 0; i < sim->bodyNum; i++){
-        body = &(*sim->bodyArray)[i];
-        numerator[0] = numerator[0] + (double)body->position.x * (double)body->mass;
-        numerator[1] = numerator[1] + (double)body->position.y * (double)body->mass;
-        numerator[2] = numerator[2] + (double)body->position.z * (double)body->mass;
-        denominator += body->mass;
-    }
-
-    for(int i = 0; i < sim->bodyNum; i++){
-        body = &(*sim->bodyArray)[i];
-        centerOfMass = {
-            (float)((numerator[0] - (double)body->position.x * (double)body->mass) / (denominator - body->mass)),
-            (float)((numerator[1] - (double)body->position.y * (double)body->mass) / (denominator - body->mass)),
-            (float)((numerator[2] - (double)body->position.z * (double)body->mass) / (denominator - body->mass))
-        };
-        differenceVector = Vector3Subtract(body->position, centerOfMass);
-        unitVector = Vector3Normalize(differenceVector);
-        normSquared = Vector3LengthSqr(differenceVector);
-        body->acceleration = Vector3Scale(unitVector, (-1.0 * (denominator - body->mass)* GRAVITATIONAL_CONSTANT) / normSquared);
+        bodyI = &(*sim->bodyArray)[i];
+        for(int j = 0; j < sim->bodyNum - ASTEROID_COUNT; j++){
+            if(i == j){
+                continue;
+            }
+            bodyJ = &(*sim->bodyArray)[j];
+            differenceVector = Vector3Subtract(bodyJ->position, bodyI->position);
+            normSquared = Vector3LengthSqr(differenceVector);
+            unitVector = Vector3Normalize(differenceVector);
+            bodyI->acceleration = Vector3Add(bodyI->acceleration, Vector3Scale(unitVector, GRAVITATIONAL_CONSTANT * bodyJ->mass / normSquared));
+        }
     }
 
 }
