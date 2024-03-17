@@ -110,7 +110,7 @@ void renderView(View *view, OrbitalSim *sim)
     
     OrbitalSimDraw(sim);
 
-    // DrawGrid(20, 10.0f);
+    DrawGrid(20, 10.0f);
     EndMode3D();
 
     // Fill in your 2D drawing code here:

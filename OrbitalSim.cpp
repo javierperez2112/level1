@@ -125,26 +125,27 @@ void updateOrbitalSim(OrbitalSim *sim)
  * @param sim The orbital simulation
 */
 void updateAccelerations(OrbitalSim *sim){
-    for(int i = 0; i < sim->bodyNum; i++){
-        (*sim->bodyArray)[i].acceleration = {0.0F, 0.0F, 0.0F};
-    }
-    Vector3 differenceVector, unitVector, force;
-    float normSquaredInverse;
+    Vector3 positionSum = Vector3Zero();
+    float massSum = 0.0;
     OrbitalBody *bodyI;
-    OrbitalBody *bodyJ;
+    Vector3 centerOfMass, unitVector, differenceVector;
+    float normSquared;
+
     for(int i = 0; i < sim->bodyNum; i++){
         bodyI = &(*sim->bodyArray)[i];
-        for(int j = i + 1; j < sim->bodyNum; j++){
-            bodyJ = &(*sim->bodyArray)[j];
-            differenceVector = Vector3Subtract(bodyI->position, bodyJ->position);
-            unitVector = Vector3Normalize(differenceVector);
-            normSquaredInverse = 1.0F / Vector3LengthSqr(differenceVector);
-            bodyI->acceleration = Vector3Add(bodyI->acceleration, 
-                                  Vector3Scale(unitVector, -1.0F * normSquaredInverse * GRAVITATIONAL_CONSTANT * bodyJ->mass));
-            bodyJ->acceleration = Vector3Add(bodyJ->acceleration, 
-                                  Vector3Scale(unitVector, normSquaredInverse * GRAVITATIONAL_CONSTANT * bodyI->mass));
-        }
+        positionSum = Vector3Add(positionSum, Vector3Scale(bodyI->position, 1E-30F * bodyI->mass));
+        massSum += bodyI->mass;
     }
+
+    for(int i = 0; i < sim->bodyNum; i++){
+        bodyI = &(*sim->bodyArray)[i];
+        centerOfMass = Vector3Scale(Vector3Subtract(positionSum, Vector3Scale(bodyI->position, 1E-30F * bodyI->mass)), 1.0 / (massSum - bodyI->mass));
+        differenceVector = Vector3Subtract(Vector3Scale(bodyI->position, 1E-30F), centerOfMass);
+        unitVector = Vector3Normalize(differenceVector);
+        normSquared = Vector3LengthSqr(Vector3Scale(differenceVector, 1E30F));
+        bodyI->acceleration = Vector3Scale(unitVector, (-1.0*(massSum - bodyI->mass)* GRAVITATIONAL_CONSTANT) / normSquared);
+    }
+
 }
 
 /**
