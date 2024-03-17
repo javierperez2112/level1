@@ -16,9 +16,11 @@
 
 #define GRAVITATIONAL_CONSTANT 6.6743E-11F
 #define ASTEROIDS_MEAN_RADIUS 4E11F
+#define ASTEROID_COUNT 500
 
 void updatePositions(OrbitalSim *sim);
 void updateAccelerations(OrbitalSim *sim);
+float highestMass(EphemeridesBody *system, int size);
 
 /**
  * @brief Gets a uniform random value in a range
@@ -56,11 +58,12 @@ void configureAsteroid(OrbitalBody *body, float centerMass)
     float vy = getRandomFloat(-1E2F, 1E2F);
 
     // Fill in with your own fields:
-    // body->mass = 1E12F;  // Typical asteroid weight: 1 billion tons
-    // body->radius = 2E3F; // Typical asteroid radius: 2km
-    // body->color = GRAY;
-    // body->position = {r * cosf(phi), 0, r * sinf(phi)};
-    // body->velocity = {-v * sinf(phi), vy, v * cosf(phi)};
+    body->mass = 1E12F;  // Typical asteroid weight: 1 billion tons
+    body->radius = 2E3F; // Typical asteroid radius: 2km
+    body->scaledRadius = RAD_SCALE(body->radius);
+    body->color = GRAY;
+    body->position = {r * cosf(phi), 0, r * sinf(phi)};
+    body->velocity = {-v * sinf(phi), vy, v * cosf(phi)};
 }
 
 /**
@@ -77,8 +80,8 @@ OrbitalSim *constructOrbitalSim(float timeStep)
     OrbitalSim * sim = new OrbitalSim;
     sim->timeStep = timeStep;
     sim->timeStamp = 0.0F;
-    sim->bodyNum = bodyNum;
-    sim->bodyArray = (OrbitalBody(*)[])malloc(sizeof(OrbitalBody) * bodyNum);
+    sim->bodyNum = bodyNum + ASTEROID_COUNT;
+    sim->bodyArray = (OrbitalBody(*)[])malloc(sizeof(OrbitalBody) * (bodyNum + ASTEROID_COUNT));
     for(int i = 0; i < bodyNum; i++){
         (*sim->bodyArray)[i] = {
             system[i].mass,
@@ -89,6 +92,10 @@ OrbitalSim *constructOrbitalSim(float timeStep)
             system[i].velocity,
             Vector3Zero(),
         };
+    }
+    float centerMass = highestMass(system, bodyNum);
+    for(int i = bodyNum; i < sim->bodyNum; i++){
+        configureAsteroid(&(*sim->bodyArray)[i], centerMass);
     }
 
     return sim; // This should return your orbital sim
@@ -161,6 +168,13 @@ void updatePositions(OrbitalSim *sim){
     }
 }
 
+/**
+ * @brief Returns highest mass of system
+ * 
+ * @param system The system
+ * @param size The number of bodies in the system
+ * @return The mass of the most massive body
+*/
 float highestMass(EphemeridesBody *system, int size){
     float highestMass = 0.0F;
     for(int i = 0; i < size; i++){
