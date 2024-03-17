@@ -12,6 +12,7 @@
 #include "raymath.h"
 
 #define RAD_SCALE(x) (0.005f * (logf(x)))
+#define ASTEROID_COUNT 500
 
 /**
  * @brief Orbital body definition

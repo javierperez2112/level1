@@ -16,7 +16,6 @@
 
 #define GRAVITATIONAL_CONSTANT 6.6743E-11F
 #define ASTEROIDS_MEAN_RADIUS 4E11F
-#define ASTEROID_COUNT 0
 
 void updatePositions(OrbitalSim *sim);
 void updateAccelerations(OrbitalSim *sim);
@@ -134,29 +133,29 @@ void updateOrbitalSim(OrbitalSim *sim)
 void updateAccelerations(OrbitalSim *sim){
     double numerator[3] = {0.0, 0.0, 0.0};  // {x,y,z}
     double denominator = 0.0;
-    OrbitalBody *bodyI;
+    OrbitalBody *body;
     Vector3 centerOfMass, unitVector, differenceVector;
     float normSquared;
 
     for(int i = 0; i < sim->bodyNum; i++){
-        bodyI = &(*sim->bodyArray)[i];
-        numerator[0] = numerator[0] + (double)bodyI->position.x * (double)bodyI->mass;
-        numerator[1] = numerator[1] + (double)bodyI->position.y * (double)bodyI->mass;
-        numerator[2] = numerator[2] + (double)bodyI->position.z * (double)bodyI->mass;
-        denominator += bodyI->mass;
+        body = &(*sim->bodyArray)[i];
+        numerator[0] = numerator[0] + (double)body->position.x * (double)body->mass;
+        numerator[1] = numerator[1] + (double)body->position.y * (double)body->mass;
+        numerator[2] = numerator[2] + (double)body->position.z * (double)body->mass;
+        denominator += body->mass;
     }
 
     for(int i = 0; i < sim->bodyNum; i++){
-        bodyI = &(*sim->bodyArray)[i];
+        body = &(*sim->bodyArray)[i];
         centerOfMass = {
-            (float)((numerator[0] - (double)bodyI->position.x * (double)bodyI->mass) / (denominator - bodyI->mass)),
-            (float)((numerator[1] - (double)bodyI->position.y * (double)bodyI->mass) / (denominator - bodyI->mass)),
-            (float)((numerator[2] - (double)bodyI->position.z * (double)bodyI->mass) / (denominator - bodyI->mass))
+            (float)((numerator[0] - (double)body->position.x * (double)body->mass) / (denominator - body->mass)),
+            (float)((numerator[1] - (double)body->position.y * (double)body->mass) / (denominator - body->mass)),
+            (float)((numerator[2] - (double)body->position.z * (double)body->mass) / (denominator - body->mass))
         };
-        differenceVector = Vector3Subtract(bodyI->position, centerOfMass);
+        differenceVector = Vector3Subtract(body->position, centerOfMass);
         unitVector = Vector3Normalize(differenceVector);
         normSquared = Vector3LengthSqr(differenceVector);
-        bodyI->acceleration = Vector3Scale(unitVector, (-1.0 * (denominator - bodyI->mass)* GRAVITATIONAL_CONSTANT) / normSquared);
+        body->acceleration = Vector3Scale(unitVector, (-1.0 * (denominator - body->mass)* GRAVITATIONAL_CONSTANT) / normSquared);
     }
 
 }

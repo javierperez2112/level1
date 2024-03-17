@@ -18,10 +18,14 @@
 
 void OrbitalSimDraw(OrbitalSim* sim) {
     OrbitalBody(*arr)[] = sim->bodyArray;
-    for (int i = 0; i < sim->bodyNum; i++) {
-        OrbitalBody planet = (*arr)[i];
-        DrawSphere(Vector3Scale(planet.position, POS_SCALE), planet.scaledRadius, planet.color);
-    };
+    for (int i = 0; i < sim->bodyNum - ASTEROID_COUNT; i++) {
+        OrbitalBody body = (*arr)[i];
+        DrawSphere(Vector3Scale(body.position, POS_SCALE), body.scaledRadius, body.color);
+    }
+    for (int i = sim->bodyNum - ASTEROID_COUNT; i < ASTEROID_COUNT; i++) {
+        OrbitalBody body = (*arr)[i];
+        DrawPoint3D(Vector3Scale(body.position, POS_SCALE), body.color);
+    }
 }
 
 /**
