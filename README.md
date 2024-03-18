@@ -8,12 +8,12 @@
 
 ## Verificación del timestep
 
-[completar]
+Se comprobó empíricamente que los timestep por debajo de 100 días por segundo generan resultados casi idénticos después de 500 años de simulación. Para asegurar mayor precisión y por razones estéticas y de visualización, se decidió dejar el timestep en 60 días por segundo. Esto deja exactamente un día de simulación por fotograma cuando se visualiza a 60 FPS.
 
 ## Verificación del tipo de datos float
 
 El tipo de datos `float` puede representar números con 17 cifras significativas, hasta alrededor de $`3.4\cdot10^{+38}`$.
-Las distancias, velocidades y aceleraciones no excederán $`10^{+13}`$, así que
+Las componentes de las variables vectoriales no exceden $`10^{13}`$, y las masas y radios son menores que $`2\cdot10^{30}`$ (masa del Sol). Entonces, el valor máximo de `float` es varios órdenes de magnitud mayor a lo que se almacena, incluso en el ejemplo del agujero negro (varios miles de masas solares).
 
 ## Complejidad computacional con asteroides
 
