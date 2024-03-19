@@ -17,10 +17,6 @@
 #define GRAVITATIONAL_CONSTANT 6.6743E-11F
 #define ASTEROIDS_MEAN_RADIUS 4E11F
 
-void updatePositions(OrbitalSim *sim);
-void updateAccelerations(OrbitalSim *sim);
-float highestMass(EphemeridesBody *system, int size);
-
 /**
  * @brief Gets a uniform random value in a range
  *
@@ -56,7 +52,6 @@ void configureAsteroid(OrbitalBody *body, float centerMass)
     float v = sqrtf(GRAVITATIONAL_CONSTANT * centerMass / r) * getRandomFloat(0.6F, 1.2F);
     float vy = getRandomFloat(-1E2F, 1E2F);
 
-    // Fill in with your own fields:
     body->mass = 1E12F;  // Typical asteroid weight: 1 billion tons
     body->radius = 2E3F; // Typical asteroid radius: 2km
     body->scaledRadius = RAD_SCALE(body->radius);
@@ -68,12 +63,11 @@ void configureAsteroid(OrbitalBody *body, float centerMass)
 /**
  * @brief Constructs an orbital simulation
  *
- * @param float The time step
+ * @param timeStep The time step
  * @return The orbital simulation
  */
 OrbitalSim *constructOrbitalSim(float timeStep)
 {
-    // Your code goes here...
     int bodyNum = SOLARSYSTEM_BODYNUM;
     EphemeridesBody * system = solarSystem;
     OrbitalSim * sim = new OrbitalSim;
@@ -92,12 +86,17 @@ OrbitalSim *constructOrbitalSim(float timeStep)
             Vector3Zero(),
         };
     }
-    float centerMass = highestMass(system, bodyNum);
+    float centerMass = 0.0F;
+    for(int i = 0; i < bodyNum; i++){
+        if(system[i].mass > centerMass){
+            centerMass = system[i].mass;
+        }
+    }
     for(int i = bodyNum; i < sim->bodyNum; i++){
         configureAsteroid(&(*sim->bodyArray)[i], centerMass);
     }
 
-    return sim; // This should return your orbital sim
+    return sim;
 }
 
 /**
@@ -118,71 +117,33 @@ void destroyOrbitalSim(OrbitalSim *sim)
  */
 void updateOrbitalSim(OrbitalSim *sim)
 {
-    // Your code goes here...
-    updateAccelerations(sim);
-    updatePositions(sim);
-    sim->timeStamp += sim->timeStep;
-
-}
-
-/**
- * @brief Updates accelerations based on position
- *
- * @param sim The orbital simulation
-*/
-void updateAccelerations(OrbitalSim *sim){
-    OrbitalBody *bodyI;
-    OrbitalBody *bodyJ;
+    // Update accelerations
     for(int i = 0; i < sim->bodyNum; i++){
-        bodyI = &(*sim->bodyArray)[i];
-        bodyI->acceleration = Vector3Zero();
+        OrbitalBody *body = &(*sim->bodyArray)[i];
+        body->acceleration = Vector3Zero();
     }
 
-    Vector3 differenceVector, unitVector;
-    float normSquared;
-
     for(int i = 0; i < sim->bodyNum; i++){
-        bodyI = &(*sim->bodyArray)[i];
+        OrbitalBody *bodyI = &(*sim->bodyArray)[i];
         for(int j = 0; j < sim->bodyNum - ASTEROID_COUNT; j++){
             if(i == j){
                 continue;
             }
-            bodyJ = &(*sim->bodyArray)[j];
-            differenceVector = Vector3Subtract(bodyJ->position, bodyI->position);
-            normSquared = Vector3LengthSqr(differenceVector);
-            unitVector = Vector3Normalize(differenceVector);
-            bodyI->acceleration = Vector3Add(bodyI->acceleration, Vector3Scale(unitVector, GRAVITATIONAL_CONSTANT * bodyJ->mass / normSquared));
+            OrbitalBody *bodyJ = &(*sim->bodyArray)[j];
+            Vector3 differenceVector = Vector3Subtract(bodyJ->position, bodyI->position);
+            float normSquared = Vector3LengthSqr(differenceVector);
+            Vector3 unitVector = Vector3Normalize(differenceVector);
+            bodyI->acceleration = Vector3Add(bodyI->acceleration, Vector3Scale(unitVector,
+                                  GRAVITATIONAL_CONSTANT * bodyJ->mass / normSquared));
         }
     }
 
-}
-
-/**
- * @brief Updates positions
- * 
- * @param sim The orbital simulation
-*/
-void updatePositions(OrbitalSim *sim){
+    // Update velocities and positions
     for(int i = 0; i < sim->bodyNum; i++){
         OrbitalBody *bodyI = &(*sim->bodyArray)[i];
         bodyI->velocity = Vector3Add(bodyI->velocity, Vector3Scale(bodyI->acceleration, sim->timeStep));
         bodyI->position = Vector3Add(bodyI->position, Vector3Scale(bodyI->velocity, sim->timeStep));
     }
-}
 
-/**
- * @brief Returns highest mass of system
- * 
- * @param system The system
- * @param size The number of bodies in the system
- * @return The mass of the most massive body
-*/
-float highestMass(EphemeridesBody *system, int size){
-    float highestMass = 0.0F;
-    for(int i = 0; i < size; i++){
-        if(system[i].mass > highestMass){
-            highestMass = system[i].mass;
-        }
-    }
-    return highestMass;
+    sim->timeStamp += sim->timeStep;
 }

@@ -34,9 +34,8 @@ struct OrbitalBody
  */
 struct OrbitalSim
 {
-    // Fill in your code here...
-    float timeStep; // [s]
-    float timeStamp;   // [s]
+    float timeStep;     // [s]
+    float timeStamp;    // [s]
     int bodyNum;
     OrbitalBody (*bodyArray)[];
 

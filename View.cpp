@@ -16,18 +16,6 @@
 
 #define POS_SCALE 1E-11
 
-void OrbitalSimDraw(OrbitalSim* sim) {
-    OrbitalBody(*arr)[] = sim->bodyArray;
-    for (int i = 0; i < sim->bodyNum - ASTEROID_COUNT; i++) {
-        OrbitalBody body = (*arr)[i];
-        DrawSphere(Vector3Scale(body.position, POS_SCALE), body.scaledRadius, body.color);
-    }
-    for (int i = sim->bodyNum - ASTEROID_COUNT; i < ASTEROID_COUNT; i++) {
-        OrbitalBody body = (*arr)[i];
-        DrawPoint3D(Vector3Scale(body.position, POS_SCALE), body.color);
-    }
-}
-
 /**
  * @brief Converts a timestamp (number of seconds since 1/1/2022)
  *        to an ISO date ("YYYY-MM-DD")
@@ -81,7 +69,7 @@ View *constructView(int fps)
 void destroyView(View *view)
 {
     CloseWindow();
-
+    
     delete view;
 }
 
@@ -110,17 +98,20 @@ void renderView(View *view, OrbitalSim *sim)
     ClearBackground(BLACK);
     BeginMode3D(view->camera);
 
-    // Fill in your 3D drawing code here:
-    
-    OrbitalSimDraw(sim);
+    // Draw spheres for planets and stars and points for asteroids
+    for (int i = 0; i < sim->bodyNum - ASTEROID_COUNT; i++) {
+        OrbitalBody body = (*sim->bodyArray)[i];
+        DrawSphere(Vector3Scale(body.position, POS_SCALE), body.scaledRadius, body.color);
+    }
+    for (int i = sim->bodyNum - ASTEROID_COUNT; i < ASTEROID_COUNT; i++) {
+        OrbitalBody body = (*sim->bodyArray)[i];
+        DrawPoint3D(Vector3Scale(body.position, POS_SCALE), body.color);
+    }
 
     DrawGrid(20, 10.0f);
     EndMode3D();
 
-    // Fill in your 2D drawing code here:
-
     DrawFPS(WINDOW_WIDTH - 100, 10);
-
     DrawText(getISODate(sim->timeStamp), WINDOW_WIDTH - 130, 30, 20, DARKGREEN);
 
     EndDrawing();
