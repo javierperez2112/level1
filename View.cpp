@@ -108,7 +108,7 @@ void renderView(View *view, OrbitalSim *sim)
         DrawPoint3D(Vector3Scale(body.position, POS_SCALE), body.color);
     }
 
-    DrawGrid(20, 10.0f);
+    DrawGrid(10, 10.0f);
     EndMode3D();
 
     DrawFPS(WINDOW_WIDTH - 100, 10);
