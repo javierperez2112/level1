@@ -1,4 +1,5 @@
 ﻿/**
+ * 25.03 Algoritmos y Estructuras de Datos - 2024Q1
  * @brief Orbital simulation
  * @author Marc S. Ressl
  * @author Camila A. Castro

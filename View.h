@@ -1,4 +1,5 @@
 /**
+ * 25.03 Algoritmos y Estructuras de Datos - 2024Q1
  * @brief Implements an orbital simulation view
  * @author Marc S. Ressl
  *
@@ -12,9 +13,7 @@
 
 #include "OrbitalSim.h"
 
-/**
- * The view data
- */
+// The view data
 struct View
 {
     Camera3D camera;

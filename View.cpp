@@ -1,4 +1,5 @@
 /**
+ * 25.03 Algoritmos y Estructuras de Datos - 2024Q1
  * @brief Implements an orbital simulation view
  * @author Marc S. Ressl
  * @author Ignacio J. Rojana Marcello
@@ -86,7 +87,7 @@ bool isViewRendering(View *view)
 }
 
 /**
- * Renders an orbital simulation
+ * @brief Renders an orbital simulation
  *
  * @param view The view
  * @param sim The orbital sim
