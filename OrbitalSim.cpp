@@ -1,6 +1,8 @@
 /**
  * @brief Orbital simulation
  * @author Marc S. Ressl
+ * @author Camila A. Castro
+ * @author Javier B. Pérez Losada
  *
  * @copyright Copyright (c) 2022-2023
  */
@@ -45,8 +47,9 @@ void configureAsteroid(OrbitalBody *body, float centerMass)
     float r = ASTEROIDS_MEAN_RADIUS * sqrtf(fabsf(l));
     float phi = getRandomFloat(0, 2.0F * (float)M_PI);
 
-    // Surprise!
-    phi = 0;
+    #if defined(BONUS_EASTER_EGG)
+        phi = 0;
+    #endif
 
     // https://en.wikipedia.org/wiki/Circular_orbit#Velocity
     float v = sqrtf(GRAVITATIONAL_CONSTANT * centerMass / r) * getRandomFloat(0.6F, 1.2F);
@@ -68,8 +71,17 @@ void configureAsteroid(OrbitalBody *body, float centerMass)
  */
 OrbitalSim *constructOrbitalSim(float timeStep)
 {
-    int bodyNum = SOLARSYSTEM_BODYNUM;
-    EphemeridesBody * system = solarSystem;
+    #if defined(BONUS_ALPHA_CENTAURI)
+        #define ASTEROID_COUNT 0
+        int bodyNum = ALPHACENTAURISYSTEM_BODYNUM;
+        EphemeridesBody * system = alphaCentauriSystem;
+    #else
+        #ifndef ASTEROID_COUNT
+            #define ASTEROID_COUNT 500
+        #endif
+        int bodyNum = SOLARSYSTEM_BODYNUM;
+        EphemeridesBody * system = solarSystem;
+    #endif
     OrbitalSim * sim = new OrbitalSim;
     sim->timeStep = timeStep;
     sim->timeStamp = 0.0F;
@@ -104,10 +116,9 @@ OrbitalSim *constructOrbitalSim(float timeStep)
  */
 void destroyOrbitalSim(OrbitalSim *sim)
 {
-    // Your code goes here...
     free(sim->bodyArray);
-    delete sim;
 
+    delete sim;
 }
 
 /**

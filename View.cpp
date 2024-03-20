@@ -1,6 +1,8 @@
 /**
  * @brief Implements an orbital simulation view
  * @author Marc S. Ressl
+ * @author Ignacio J. Rojana Marcello
+ * @author Javier B. Pérez Losada
  *
  * @copyright Copyright (c) 2022-2023
  */

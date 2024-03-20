@@ -37,12 +37,17 @@ Si Júpiter fuera 1000 veces más masivo, el Sistema Solar sería un sistema bin
 | ![GIF_bonus](/images/jupiter.gif) |
 | --- |
 
+Para hacer este cambio, hay que incluir `#define BONUS_JUPITER` en _*ephemerides.h*_.
+
 ### Agujero negro
-
+Para hacer este cambio, hay que incluir `#define BONUS_BLACK_HOLE` en _*ephemerides.h*_.
 ### Alpha Centauri
-
+Para hacer este cambio, hay que incluir `#define BONUS_ALPHA_CENTAURI` en _*OrbitalSim.h*_.
 ### Easter egg
 Dentro de la función `configureAsteroid` hay una línea comentada que hace que el ángulo de la posición de todos los asteroides generados sea 0° en lugar de un número aleatorio, dejando todos los asteroides alineados. Con el paso del tiempo, estos asteroides van a acupar una distribución similar a la que tendrían sin esta línea.
+
 | Primer instante | Pasados 20 años de simulación |
 | :---: | :---: |
 | ![easter-egg-1](/images/easter-egg-1.png) | ![easter-egg-2](/images/easter-egg-2.png) |
+
+Para hacer este cambio, hay que incluir `#define BONUS_EASTER_EGG` en _*OrbitalSim.h*_.

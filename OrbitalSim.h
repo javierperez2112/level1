@@ -1,6 +1,7 @@
 ﻿/**
  * @brief Orbital simulation
  * @author Marc S. Ressl
+ * @author Camila A. Castro
  *
  * @copyright Copyright (c) 2022-2023
  */
@@ -19,7 +20,6 @@
  */
 struct OrbitalBody
 {
-    // Fill in your code here...
     float mass;		  // [kg]
     float radius;	  // [m]
     float scaledRadius;
