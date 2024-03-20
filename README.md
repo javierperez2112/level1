@@ -39,6 +39,4 @@ Si Júpiter fuera 1000 veces más masivo, el Sistema Solar sería un sistema bin
 
 ### Easter egg
 Dentro de la función `configureAsteroid` hay una línea comentada que hace que el ángulo de la posición de todos los asteroides generados sea 0° en lugar de un número aleatorio, dejando todos los asteroides alineados. Con el paso del tiempo, estos asteroides van a acupar una distribución similar a la que tendrían sin esta línea.
-| Primer instante | Pasados 20 años de simulación |
-| --------------- | ---------------- |
-| ![easter-egg-1](/images/easter-egg-1.png) | ![easter-egg-2](/images/easter-egg-2.png) |
+
