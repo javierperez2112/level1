@@ -98,7 +98,8 @@ EphemeridesBody solarSystem[] = {
         DARKBLUE,
         {4.431790029686977E+12F, -8.954348456482631E+10F, -6.114486878028781E+11F},
         {7.066237951457524E+02F, -1.271365751559108E+02F, 5.417076605926207E+03F},
-    },
+    }
+
 };
 
 #define SOLARSYSTEM_BODYNUM (sizeof(solarSystem) / sizeof(EphemeridesBody))
