@@ -2,13 +2,13 @@
 
 ## Integrantes del grupo y contribución al trabajo de cada integrante
 
-* Camila Agustina Castro: updateOrbitalSim, bonus
-* Ignacio Joaquin Rojana Marcello: vizualización, ephemerides, bonus
-* Javier Baltasar Pérez Losada: updateOrbitalSim (optimización), estructura del trabajo, bonus
+* **Camila Agustina Castro:** modelo, bonus points.
+* **Ignacio Joaquin Rojana Marcello:** vista, bonus points.
+* **Javier Baltasar Pérez Losada:** optimización de modelo y vista, estructura del trabajo.
 
 ## Verificación del timestep
 
-Se comprobó empíricamente que los timestep por debajo de 100 días por segundo generan resultados casi idénticos después de 500 años de simulación. Para asegurar mayor precisión y por razones estéticas y de visualización, se decidió dejar el timestep en 60 días por segundo. Esto deja exactamente un día de simulación por fotograma cuando se visualiza a 60 FPS.
+Se comprobó empíricamente que los timestep por debajo de 100 días por segundo a 60 FPS (timestep < 1.67 días) generan resultados casi idénticos después de 200 años de simulación. Para asegurar mayor precisión y por razones estéticas y de visualización, se decidió dejar el timestep en 60 días por segundo de simulación. Esto deja exactamente un día por fotograma cuando se visualiza a 60 FPS.
 
 ## Verificación del tipo de datos float
 
@@ -37,8 +37,12 @@ Si Júpiter fuera 1000 veces más masivo, el Sistema Solar sería un sistema bin
 | ![GIF_bonus](/images/jupiter.gif) |
 | --- |
 
+### Agujero negro
+
+### Alpha Centauri
+
 ### Easter egg
 Dentro de la función `configureAsteroid` hay una línea comentada que hace que el ángulo de la posición de todos los asteroides generados sea 0° en lugar de un número aleatorio, dejando todos los asteroides alineados. Con el paso del tiempo, estos asteroides van a acupar una distribución similar a la que tendrían sin esta línea.
 | Primer instante | Pasados 20 años de simulación |
-| --------------- | ---------------- |
+| :---: | :---: |
 | ![easter-egg-1](/images/easter-egg-1.png) | ![easter-egg-2](/images/easter-egg-2.png) |
