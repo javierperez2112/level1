@@ -12,8 +12,8 @@ Se comprobó empíricamente que los timestep por debajo de 100 días por segundo
 
 ## Verificación del tipo de datos float
 
-El tipo de datos `float` puede representar números con 17 cifras significativas, hasta alrededor de $`3.4\cdot10^{+38}`$.
-Las componentes de las variables vectoriales no exceden $`10^{13}`$, y las variables escalares son menores que $`2\cdot10^{30}`$ (masa del Sol). Entonces, el valor máximo de `float` es varios órdenes de magnitud mayor a lo que se almacena, incluso para el ejemplo del agujero negro (varios miles de masas solares).
+El tipo de datos `float` puede representar números con 17 cifras significativas, hasta alrededor de $3.4\cdot10^{+38}$.
+Las componentes de las variables vectoriales no exceden $10^{13}$, y las variables escalares son menores que $2\cdot10^{30}$ (masa del Sol). Entonces, el valor máximo de `float` es varios órdenes de magnitud mayor a lo que se almacena, incluso para el ejemplo del agujero negro (varios miles de masas solares).
 
 ## Complejidad computacional con asteroides
 
