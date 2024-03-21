@@ -109,7 +109,7 @@ EphemeridesBody solarSystem[] = {
             "Agujero negro",
             1988500E27F,    // 1000 solar masses
             70000E3F,
-            DARKBLUE,
+            DARKPURPLE,
             {4.5E+12F, -9E+10F, -6E+11F},
             {0.0F, 0.0F, 0.0F},
         },
