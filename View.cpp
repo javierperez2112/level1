@@ -102,11 +102,13 @@ void renderView(View *view, OrbitalSim *sim)
     BeginMode3D(view->camera);
 
     // Draw spheres for planets and stars and points for asteroids
-    for (int i = 0; i < sim->bodyNum - ASTEROID_COUNT; i++) {
+    for (int i = 0; i < sim->bodyNum - ASTEROID_COUNT; i++)
+    {
         OrbitalBody body = (*sim->bodyArray)[i];
         DrawSphere(Vector3Scale(body.position, POS_SCALE), body.scaledRadius, body.color);
     }
-    for (int i = sim->bodyNum - ASTEROID_COUNT; i < ASTEROID_COUNT; i++) {
+    for (int i = sim->bodyNum - ASTEROID_COUNT; i < ASTEROID_COUNT; i++)
+    {
         OrbitalBody body = (*sim->bodyArray)[i];
         DrawPoint3D(Vector3Scale(body.position, POS_SCALE), body.color);
     }

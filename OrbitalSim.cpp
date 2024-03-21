@@ -88,7 +88,8 @@ OrbitalSim *constructOrbitalSim(float timeStep)
     sim->timeStamp = 0.0F;
     sim->bodyNum = bodyNum + ASTEROID_COUNT;
     sim->bodyArray = (OrbitalBody(*)[])malloc(sizeof(OrbitalBody) * (bodyNum + ASTEROID_COUNT));
-    for(int i = 0; i < bodyNum; i++){
+    for(int i = 0; i < bodyNum; i++)
+    {
         (*sim->bodyArray)[i] = {
             system[i].mass,
             system[i].radius,
@@ -100,12 +101,15 @@ OrbitalSim *constructOrbitalSim(float timeStep)
         };
     }
     float centerMass = 0.0F;
-    for(int i = 0; i < bodyNum; i++){
-        if(system[i].mass > centerMass){
+    for(int i = 0; i < bodyNum; i++)
+    {
+        if(system[i].mass > centerMass)
+        {
             centerMass = system[i].mass;
         }
     }
-    for(int i = bodyNum; i < sim->bodyNum; i++){
+    for(int i = bodyNum; i < sim->bodyNum; i++)
+    {
         configureAsteroid(&(*sim->bodyArray)[i], centerMass);
     }
 
@@ -130,15 +134,19 @@ void destroyOrbitalSim(OrbitalSim *sim)
 void updateOrbitalSim(OrbitalSim *sim)
 {
     // Update accelerations
-    for(int i = 0; i < sim->bodyNum; i++){
+    for(int i = 0; i < sim->bodyNum; i++)
+    {
         OrbitalBody *body = &(*sim->bodyArray)[i];
         body->acceleration = Vector3Zero();
     }
 
-    for(int i = 0; i < sim->bodyNum; i++){
+    for(int i = 0; i < sim->bodyNum; i++)
+    {
         OrbitalBody *bodyI = &(*sim->bodyArray)[i];
-        for(int j = 0; j < sim->bodyNum - ASTEROID_COUNT; j++){
-            if(i == j){
+        for(int j = 0; j < sim->bodyNum - ASTEROID_COUNT; j++)
+        {
+            if(i == j)
+            {
                 continue;
             }
             OrbitalBody *bodyJ = &(*sim->bodyArray)[j];
@@ -151,7 +159,8 @@ void updateOrbitalSim(OrbitalSim *sim)
     }
 
     // Update velocities and positions
-    for(int i = 0; i < sim->bodyNum; i++){
+    for(int i = 0; i < sim->bodyNum; i++)
+    {
         OrbitalBody *bodyI = &(*sim->bodyArray)[i];
         bodyI->velocity = Vector3Add(bodyI->velocity, Vector3Scale(bodyI->acceleration, sim->timeStep));
         bodyI->position = Vector3Add(bodyI->position, Vector3Scale(bodyI->velocity, sim->timeStep));
