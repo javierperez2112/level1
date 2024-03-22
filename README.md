@@ -32,23 +32,22 @@ Al representar a los asteroides como puntos en lugar de esferas, se ahorra mucho
 ## Bonus points
 
 ### Júpiter
-<!-- En el caso que Jupiter fuera 1000 veces más grande el sistema solar se vería atraído por su fuerza gravitatoria, por lo que se observaría un movimiento alrederor del Sol y a su vez alrededor de Jupiter. Asímismo, luego de determinado tiempo, los planetas y asteroides se saldrían de sus orbitas y viajarían sin rumbo por el espacio. -->
-Si Júpiter fuera 1000 veces más masivo, el Sistema Solar sería un sistema binario, ya que el Sol y Júpiter tendrían masas similares. En la simulación se puede observar como, al cambiar la masa del gigante gaseoso, varios planetas salen catapultados hacia órbitas más lejanas al Sol. En el caso de la Tierra, supera la velocidad de escape y sale despedida hacia el espacio profundo, haciendo imposible la vida como la conocemos.
-| ![GIF_bonus](/images/jupiter.gif) |
+Si Júpiter fuera 1000 veces más masivo, el Sistema Solar sería un sistema binario, ya que el Sol y Júpiter tendrían masas similares. En la simulación se puede observar como, al cambiar la masa del gigante gaseoso, varios planetas salen catapultados hacia órbitas más lejanas al Sol. En el caso de la Tierra, sale despedida hacia el espacio profundo, haciendo imposible la vida como la conocemos.
+| ![jupiter](/images/jupiter.gif) |
 | --- |
 
 Para hacer este cambio, hay que incluir `#define BONUS_JUPITER` en _*ephemerides.h*_.
 
 ### Agujero negro
-Si hubiera un agujero negro pasando cerca de o por nuestro Sistema Solar lo que sucederia sería que el sistema se vería atraído hacia el agujero negro y luego sería expulsado muy fuertemente fuera de su orbita.
-| ![GIF_bonus](/images/agujero-negro.gif) |
+Si agujero negro pasara cerca de o por nuestro Sistema Solar, el sistema se vería atraído hacia él, y luego los planetas y el Sol serían expulsados muy fuertemente fuera de sus trayectorias originales.
+| ![agujero-negro](/images/agujero-negro.gif) |
 | --- |
 
 Para hacer este cambio, hay que incluir `#define BONUS_BLACK_HOLE` en _*ephemerides.h*_.
 
 ### Alpha Centauri
 Visualización de Alpha Centauri:
-| ![FOTO_bonus](/images/alpha-centauri.png) |
+| ![alpha-centauri](/images/alpha-centauri.png) |
 | --- |
 
 Para hacer este cambio, hay que incluir `#define BONUS_ALPHA_CENTAURI` en _*OrbitalSim.h*_.
