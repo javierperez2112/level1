@@ -21,13 +21,13 @@
  */
 struct OrbitalBody
 {
-    float mass;		  // [kg]
-    float radius;	  // [m]
+    float mass;		      // [kg]
+    float radius;	      // [m]
     float scaledRadius;
-    Color color;	  // Raylib color
-    Vector3 position; // [m]
-    Vector3 velocity; // [m/s]
-    Vector3 acceleration;   // [m/s^2]
+    Color color;	      // Raylib color
+    Vector3 position;     // [m]
+    Vector3 velocity;     // [m/s]
+    Vector3 acceleration; // [m/s^2]
 };
 
 /**
