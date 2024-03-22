@@ -118,6 +118,8 @@ OrbitalSim *constructOrbitalSim(float timeStep)
 
 /**
  * @brief Destroys an orbital simulation
+ *
+ * @param sim The orbital simulation
  */
 void destroyOrbitalSim(OrbitalSim *sim)
 {
